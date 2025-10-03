@@ -45,7 +45,7 @@ def get_aya_page(page: int):
     result = [dict(row) for row in rows]
     database.close()
 
-    return result
+    return {"verses":result}
 
 # Get tafsir by aya
 @app.get("/quran/tafsir/{tafsir}/{aya_id}")
