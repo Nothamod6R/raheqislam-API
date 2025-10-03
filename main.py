@@ -1,10 +1,17 @@
 from typing import Union
 import _sqlite3
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Get aya by id
 @app.get("/quran/ayas/{aya_id}")
@@ -38,3 +45,4 @@ def get_tafsir(tafsir: int, aya_id: int):
     result = cursor.fetchall()
     database.close()
     return result
+
