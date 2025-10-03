@@ -14,7 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # Get chapters
 @app.get("/quran/chapters")
 def get_chapters():
@@ -28,7 +27,7 @@ def get_chapters():
 def get_aya(aya_id: int):
     database = _sqlite3.connect("database/quran.db")
     cursor = database.cursor()
-    cursor.execute("SELECT content FROM verses where id = (?)", (aya_id,))
+    cursor.execute("SELECT * FROM verses where id = (?)", (aya_id,))
     result = cursor.fetchall()
     database.close()
     return result
@@ -37,10 +36,15 @@ def get_aya(aya_id: int):
 @app.get("/quran/ayas/pages/{page}")
 def get_aya_page(page: int):
     database = _sqlite3.connect("database/quran.db")
+    database.row_factory = _sqlite3.Row
     cursor = database.cursor()
-    cursor.execute("SELECT content FROM verses where page_id = (?)", (page,))
-    result = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM verses WHERE page_id = ?", (page,))
+    rows = cursor.fetchall()
+
+    result = [dict(row) for row in rows]
     database.close()
+
     return result
 
 # Get tafsir by aya
@@ -55,5 +59,3 @@ def get_tafsir(tafsir: int, aya_id: int):
     result = cursor.fetchall()
     database.close()
     return result
-
-
