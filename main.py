@@ -1,5 +1,6 @@
 from typing import Union
 import _sqlite3
+import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,6 +13,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Get chapters
+@app.get("/quran/chapters")
+def get_chapters():
+    f = open("database/surah.json", encoding='utf-8')
+    data = json.load(f)
+    f.close()
+    return data
 
 # Get aya by id
 @app.get("/quran/ayas/{aya_id}")
@@ -45,4 +55,5 @@ def get_tafsir(tafsir: int, aya_id: int):
     result = cursor.fetchall()
     database.close()
     return result
+
 
