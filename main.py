@@ -76,3 +76,11 @@ def audio(shui5, surah, aya_id):
         return FileResponse(file_path, media_type="audio/mp3")
     else:
         return {"error": "File not found"}
+
+# Get shi5
+@app.get("/quran/rections")
+def rections():
+    f = open("shi5.json", encoding='utf-8')
+    data = json.load(f)
+    f.close()
+    return data
