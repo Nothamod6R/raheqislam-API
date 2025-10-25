@@ -16,16 +16,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 """
     Raheq islam API Version 1
 
     Developers:
        - Pixly
+       - Awis19
+
+
+    © Copyright 2025 Raheq alislam
 """
-
-
 
 # ====================================================================
 # Quran API
@@ -140,5 +140,27 @@ def questions_random():
         return {"error": "Empty question"}
 
     random_question_object = random.choice(data)
+
+    return random_question_object
+
+@app.get("/api/v1/questions/level/{level}")
+def get_question_by_level(level):
+    try:
+        with open("database/questions.json", encoding='utf-8') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return {"error": "ERROR 404: Not Find database/questions.json"}
+    except json.JSONDecodeError:
+        return {"error": "ERROR: questions.json file JSONCODE is wrong."}
+
+    if not isinstance(data, list) or not data:
+        return {"error": "Empty question"}
+
+    filtered_questions = [q for q in data if str(q.get("level")) == str(level)]
+
+    if not filtered_questions:
+        return {"error": f"No questions found for level '{level}'"}
+
+    random_question_object = random.choice(filtered_questions)
 
     return random_question_object
