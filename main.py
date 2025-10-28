@@ -6,6 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import random
 
+
+# Setup API
+
 app = FastAPI()
 
 app.add_middleware(
@@ -27,9 +30,14 @@ app.add_middleware(
     © Copyright 2025 Raheq alislam
 """
 
-# ====================================================================
-# Quran API
-# ====================================================================
+
+# ==========================================================
+# Raheq islam API Version 1
+# ==========================================================
+
+# //////////////////////////
+# Quran
+# //////////////////////////
 
 # Get chapters
 @app.get("/api/v1/quran/chapters")
@@ -104,10 +112,28 @@ def rections():
     f.close()
     return data
 
-# ====================================================================
-# Athker
-# ====================================================================
+# //////////////////////////
+# Hadith
+# //////////////////////////
 
+@app.get("/api/v1/hadith/{hadith_id}")
+def hadith_by_id(hadith_id):
+    try:
+        database = _sqlite3.connect("database/hadith.db", check_same_thread=False)
+        cursor = database.cursor()
+
+        cursor.execute("SELECT * FROM ahadith WHERE id = ?", (hadith_id,))
+        result = cursor.fetchall()
+
+        return result
+    except Exception as e:
+        return {"error": str(e)}
+
+# //////////////////////////
+# Athker
+# //////////////////////////
+
+# Get All athker
 @app.get("/api/v1/athker/all")
 def get_main_info_thker():
     f = open("database/athkar.json", encoding="utf-8")
@@ -115,10 +141,11 @@ def get_main_info_thker():
     f.close()
     return data
 
-# ====================================================================
+# //////////////////////////
 # Questions
-# ====================================================================
+# //////////////////////////
 
+# Get all questions in questions.json
 @app.get("/api/v1/questions/show")
 def show_questions():
     f = open("database/questions.json", encoding='utf-8')
@@ -126,6 +153,7 @@ def show_questions():
     f.close()
     return data
 
+# Get random questions
 @app.get("/api/v1/questions/random")
 def questions_random():
     try:
@@ -143,6 +171,7 @@ def questions_random():
 
     return random_question_object
 
+# Get random questions by level
 @app.get("/api/v1/questions/level/{level}")
 def get_question_by_level(level):
     try:
