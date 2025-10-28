@@ -144,7 +144,7 @@ GET /api/v1/hadith/{hadith_id}
 🔸 مثال:
 
 ```
-/api/v1/hadith/150
+/api/v1/hadith/1
 ```
 
 ---
