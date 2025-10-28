@@ -12,7 +12,7 @@
 ### 1. استنساخ المشروع
 
 ```bash
-git clone https://github.com/username/raheeq-al-islam-api.git
+https://github.com/Nothamod6R/raheqislam-API.git
 cd raheeq-al-islam-api
 ```
 
