@@ -122,16 +122,12 @@ GET /api/v1/quran/tafsir/{tafsir}/{aya_id}
 🔸 مثال:
 
 ```
-/api/v1/quran/tafsir/ibn-kathir/2:255
+/api/v1/quran/tafsir/0/2:255
 ```
 
 🔹 **tafsir** يمكن أن يكون:
 
-* ibn-kathir
-* saadi
-* jalalayn
-* baghawy
-  (بحسب ما هو متوفر في قاعدة البيانات)
+* Almyser (0)
 
 ---
 
