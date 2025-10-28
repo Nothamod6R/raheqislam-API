@@ -76,21 +76,18 @@ def get_aya_page(page):
 
 # Get ayas by surah
 @app.get("/api/v1/quran/ayas/surah/{surah_id}")
-def get_aya_surah(surah):
-    try:
-        database = _sqlite3.connect("database/quran.db", check_same_thread=False)
-        database.row_factory = _sqlite3.Row
-        cursor = database.cursor()
+def get_aya_surah(surah_id):
+    database = _sqlite3.connect("database/quran.db", check_same_thread=False)
+    database.row_factory = _sqlite3.Row
+    cursor = database.cursor()
 
-        cursor.execute("SELECT * FROM verses WHERE chapter_id = ?", (surah,))
-        rows = cursor.fetchall()
+    cursor.execute("SELECT * FROM verses WHERE chapter_id = ?", (surah_id,))
+    rows = cursor.fetchall()
 
-        result = [dict(row) for row in rows]
-        database.close()
-        return {"verses":result}
-    
-    except Exception as e:
-        return {"error": e}
+    result = [dict(row) for row in rows]
+    database.close()
+
+    return {"verses":result}
     
 
 # Get tafsir by aya
@@ -212,3 +209,4 @@ def get_question_by_level(level):
     random_question_object = random.choice(filtered_questions)
 
     return random_question_object
+
