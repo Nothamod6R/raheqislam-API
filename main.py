@@ -97,9 +97,10 @@ def get_tafsir(tafsir, aya_id):
         database = _sqlite3.connect("database/tafsir.db", check_same_thread=False)
         cursor = database.cursor()
         
-        if tafsir == 0:  # Almysr
+        if tafsir == "0":  # Almysr
             cursor.execute("SELECT content FROM items WHERE verse_key = ?", (aya_id,))
-            result = cursor.fetchall()
+            
+        result = cursor.fetchall()
         
         database.close()
         return result if result else {"message": "No data found"}
@@ -209,4 +210,5 @@ def get_question_by_level(level):
     random_question_object = random.choice(filtered_questions)
 
     return random_question_object
+
 
