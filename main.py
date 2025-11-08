@@ -52,7 +52,7 @@ def get_chapters():
 def get_aya(aya_id: str):
     database = _sqlite3.connect("database/quran.db", check_same_thread=False)
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM verses WHERE verse_key = ?", (aya_id,))
+    cursor.execute("SELECT * FROM verse WHERE verse_key = ?", (aya_id,))
     rows = cursor.fetchall()
     result = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
     database.close()
@@ -66,7 +66,7 @@ def get_aya_page(page):
     database.row_factory = _sqlite3.Row
     cursor = database.cursor()
 
-    cursor.execute("SELECT * FROM verses WHERE page_id = ?", (page,))
+    cursor.execute("SELECT * FROM verse WHERE page_id = ?", (page,))
     rows = cursor.fetchall()
 
     result = [dict(row) for row in rows]
@@ -81,7 +81,7 @@ def get_aya_surah(surah_id):
     database.row_factory = _sqlite3.Row
     cursor = database.cursor()
 
-    cursor.execute("SELECT * FROM verses WHERE chapter_id = ?", (surah_id,))
+    cursor.execute("SELECT * FROM verse WHERE chapter_id = ?", (surah_id,))
     rows = cursor.fetchall()
 
     result = [dict(row) for row in rows]
@@ -210,5 +210,3 @@ def get_question_by_level(level):
     random_question_object = random.choice(filtered_questions)
 
     return random_question_object
-
-
